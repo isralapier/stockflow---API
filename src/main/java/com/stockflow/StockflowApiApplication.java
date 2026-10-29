@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class StockflowApiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(StockflowApiApplication.class, args);
-	}
+		public static void main(String[] args) {
+			SpringApplication.run(StockflowApiApplication.class, args);
+		}
 
 }
