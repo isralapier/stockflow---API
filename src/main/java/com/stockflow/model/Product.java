@@ -1,9 +1,16 @@
 package com.stockflow.model;
+import jakarta.persistence.*;
+
+import javax.annotation.processing.Generated;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "products")
 public class Product {
 
     //variables
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String sku;
