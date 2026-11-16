@@ -1,11 +1,12 @@
 package com.stockflow.controller;
 
-import com.stockflow.model.Product;
+import com.stockflow.dto.ProductRequest;
+import com.stockflow.dto.ProductResponse;
 import com.stockflow.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
@@ -19,40 +20,45 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // GET: obtener todos los productos
+    //OBTENER PRODUCTOS
     @GetMapping
-    public List<Product> getProducts() {
+    public List<ProductResponse> getProducts() {
         return productService.getAllProducts();
     }
 
-    // GET: obtener un producto por ID
+    //OBTENER PRODUCTO POR ID
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    public ResponseEntity<ProductResponse> getProductById(
+            @PathVariable Long id) {
+
         return productService.getProductById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // POST: crear un producto
+    //CREAR PRODUCTO
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        Product createdProduct = productService.createProduct(product);
+    public ResponseEntity<ProductResponse> createProduct(
+            @Valid @RequestBody ProductRequest request) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+        ProductResponse createdProduct = productService.createProduct(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(createdProduct);
     }
 
-    // PUT: actualizar un producto
+    //ACTUALIZAR PRODUCTO
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(
+    public ResponseEntity<ProductResponse> updateProduct(
             @PathVariable Long id,
-            @RequestBody Product productDetails) {
+            @Valid @RequestBody ProductRequest request) {
 
-        return productService.updateProduct(id, productDetails)
+        return productService.updateProduct(id, request)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // DELETE: eliminar un producto
+    //BORRAR PRODUCTO
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
 
